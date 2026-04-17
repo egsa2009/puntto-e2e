@@ -8,14 +8,19 @@ import { test, expect } from '@playwright/test'
 import { PosScanPage }    from '../../pages/pos/ScanPage'
 import { PosPurchasePage } from '../../pages/pos/PurchasePage'
 import { adminClient, getTenantId } from '../../fixtures/supabase'
+import { injectAuth } from '../../fixtures/injectAuth'
 
 const SLUG            = process.env.TEST_SLUG         || 'momotea'
-const TEST_CLIENT_QR  = process.env.TEST_CLIENT_QR    || ''   // QR del cliente de prueba
-const PURCHASE_AMOUNT = 50_000  // $50.000 COP — debe dar puntos según la config del tenant
+const TEST_CLIENT_QR  = process.env.TEST_CLIENT_QR    || ''
+const PURCHASE_AMOUNT = 50_000
 
 test.describe('POS — Registrar Compra', () => {
 
   test.skip(!TEST_CLIENT_QR, 'TEST_CLIENT_QR no configurado en .env.test')
+
+  test.beforeEach(async ({ page }) => {
+    await injectAuth(page, 'pos')
+  })
 
   test('registra una compra y suma puntos al cliente', async ({ page }) => {
     const scanPage     = new PosScanPage(page)

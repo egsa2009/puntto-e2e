@@ -9,10 +9,15 @@
 import { test, expect } from '@playwright/test'
 import { ClientBenefitsPage } from '../../pages/client/BenefitsPage'
 import { ClientDashboardPage } from '../../pages/client/DashboardPage'
+import { injectAuth } from '../../fixtures/injectAuth'
 
 const SLUG = process.env.TEST_SLUG || 'momotea'
 
 test.describe('Client — Beneficios (solo informativo)', () => {
+
+  test.beforeEach(async ({ page }) => {
+    await injectAuth(page, 'client')
+  })
 
   test('muestra las promociones activas del tenant', async ({ page }) => {
     const benefitsPage = new ClientBenefitsPage(page)

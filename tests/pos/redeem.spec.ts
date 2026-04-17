@@ -10,6 +10,7 @@ import { test, expect } from '@playwright/test'
 import { PosScanPage }   from '../../pages/pos/ScanPage'
 import { PosRedeemPage } from '../../pages/pos/RedeemPage'
 import { adminClient, getTenantId } from '../../fixtures/supabase'
+import { injectAuth } from '../../fixtures/injectAuth'
 
 const SLUG           = process.env.TEST_SLUG      || 'momotea'
 const TEST_CLIENT_QR = process.env.TEST_CLIENT_QR || ''
@@ -22,8 +23,11 @@ test.describe('POS — Canje de Promociones', () => {
   let tenantId: string
   let promoId: string
 
-  // Antes de estos tests: crear una promoción E2E y asegurarse
-  // de que el cliente tiene suficientes puntos para canjearla
+  test.beforeEach(async ({ page }) => {
+    await injectAuth(page, 'pos')
+  })
+
+  // Antes de estos tests: crear una promoción E2E
   test.beforeAll(async () => {
     tenantId = await getTenantId(SLUG)
 

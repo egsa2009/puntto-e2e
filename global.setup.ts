@@ -1,65 +1,114 @@
 /**
- * global.setup.ts
- * Corre UNA VEZ antes de toda la suite.
- * Responsabilidades:
- *   1. Hacer login en cada app y guardar el storage state (.auth/*.json)
- *      para que los tests no tengan que hacer login en cada spec.
- *   2. Limpiar datos de prueba que puedan haber quedado de una corrida anterior.
+ * global.setup.ts — Corre UNA VEZ antes de toda la suite.
+ *
+ * Estrategia de autenticación:
+ *   1. Login por navegador → Supabase escribe el token en localStorage
+ *   2. Leemos el localStorage raw y lo guardamos en .auth/XXX-ls.json
+ *   3. Los tests lo inyectan con page.addInitScript() ANTES de que corra
+ *      el JS de la página, garantizando que getSession() encuentre el token
  */
-import { test as setup, expect } from '@playwright/test'
+import { test as setup } from '@playwright/test'
+import * as fs   from 'fs'
+import * as path from 'path'
 import { cleanTestData, getTenantId } from './fixtures/supabase'
 
 const ADMIN_URL  = process.env.ADMIN_URL  || 'http://localhost:5174'
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173'
 const POS_URL    = process.env.POS_URL    || 'http://localhost:5175'
 const SLUG       = process.env.TEST_SLUG  || 'momotea'
+const AUTH_DIR   = path.resolve(__dirname, '.auth')
 
-// ─── 1. Login Admin ─────────────────────────────────────────────────────────
-setup('login admin', async ({ page }) => {
-  await page.goto(`${ADMIN_URL}/login`)
-  await page.getByPlaceholder(/correo|email/i).fill(process.env.TEST_ADMIN_EMAIL!)
-  await page.getByPlaceholder(/contraseña|password/i).fill(process.env.TEST_ADMIN_PASSWORD!)
-  await page.getByRole('button', { name: /iniciar sesion|login|entrar/i }).click()
+async function loginAndSaveLS(
+  page:       import('@playwright/test').Page,
+  loginUrl:   string,
+  email:      string,
+  password:   string,
+  successUrl: string | RegExp,
+  lsFile:     string,
+  label:      string,
+) {
+  await page.goto(loginUrl, { waitUntil: 'domcontentloaded' })
+  await page.locator('input[type="email"]').fill(email)
+  await page.locator('input[type="password"]').fill(password)
+  await page.locator('button[type="submit"]').click()
 
-  // Esperar a que llegue al dashboard
-  await expect(page).toHaveURL(/dashboard|overview|resumen/, { timeout: 10_000 })
-  await page.context().storageState({ path: '.auth/admin.json' })
-  console.log('✅ Admin autenticado')
-})
+  // Esperar URL de destino post-login
+  await page.waitForURL(successUrl, { timeout: 20_000 })
 
-// ─── 2. Login Cliente ────────────────────────────────────────────────────────
-setup('login cliente', async ({ page }) => {
-  await page.goto(`${CLIENT_URL}/${SLUG}/login`)
-  await page.getByPlaceholder(/teléfono|telefono|phone/i).fill(
-    process.env.TEST_CLIENT_PHONE || '3000000001'
-  )
+  // Esperar a que Supabase termine de escribir el token en localStorage
+  await page.waitForFunction(
+    () => Object.keys(localStorage).some(k => k.includes('auth')),
+    { timeout: 10_000 }
+  ).catch(() => {
+    // Si tras 10s no hay token, registrar todas las claves presentes
+    console.warn(`⚠️  ${label}: no se encontró clave "auth" en localStorage tras login`)
+  })
 
-  // Si el flujo es por OTP, saltar este step — ver nota en .env.example
-  // Por ahora asumimos login con email/password si existe
-  const passwordInput = page.getByPlaceholder(/contraseña|password/i)
-  if (await passwordInput.isVisible({ timeout: 2_000 }).catch(() => false)) {
-    await passwordInput.fill(process.env.TEST_CLIENT_PASSWORD!)
-    await page.getByRole('button', { name: /entrar|continuar|login/i }).click()
+  // Leer el localStorage completo
+  const items = await page.evaluate((): Array<{ key: string; value: string }> => {
+    const out: Array<{ key: string; value: string }> = []
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i)!
+      out.push({ key: k, value: localStorage.getItem(k)! })
+    }
+    return out
+  })
+
+  console.log(`📦 ${label} localStorage (${items.length} items):`,
+    items.map(i => i.key).join(', ') || '—vacío—')
+
+  if (items.length === 0) {
+    throw new Error(
+      `❌ ${label}: localStorage vacío después del login.\n` +
+      `   Verifica que las credenciales en .env.test sean correctas y que\n` +
+      `   la app esté corriendo en ${loginUrl}.`
+    )
   }
 
-  await expect(page).toHaveURL(new RegExp(`${SLUG}/dashboard`), { timeout: 10_000 })
-  await page.context().storageState({ path: '.auth/client.json' })
-  console.log('✅ Cliente autenticado')
+  fs.writeFileSync(lsFile, JSON.stringify(items, null, 2))
+  console.log(`✅ ${label} — sesión guardada en ${path.basename(lsFile)}`)
+}
+
+// ─── Logins ──────────────────────────────────────────────────────────────────
+
+setup('login admin', async ({ page }) => {
+  await loginAndSaveLS(
+    page,
+    `${ADMIN_URL}/login`,
+    process.env.TEST_ADMIN_EMAIL!,
+    process.env.TEST_ADMIN_PASSWORD!,
+    /dashboard/,
+    path.join(AUTH_DIR, 'admin-ls.json'),
+    'Admin',
+  )
 })
 
-// ─── 3. Login POS ────────────────────────────────────────────────────────────
+setup('login cliente', async ({ page }) => {
+  await loginAndSaveLS(
+    page,
+    `${CLIENT_URL}/${SLUG}/login`,
+    process.env.TEST_CLIENT_EMAIL!,
+    process.env.TEST_CLIENT_PASSWORD!,
+    new RegExp(`${SLUG}/dashboard`),
+    path.join(AUTH_DIR, 'client-ls.json'),
+    'Cliente',
+  )
+})
+
 setup('login pos', async ({ page }) => {
-  await page.goto(`${POS_URL}/login`)
-  await page.getByPlaceholder(/correo|email/i).fill(process.env.TEST_CASHIER_EMAIL!)
-  await page.getByPlaceholder(/contraseña|password/i).fill(process.env.TEST_CASHIER_PASSWORD!)
-  await page.getByRole('button', { name: /iniciar sesion|login|entrar/i }).click()
-
-  await expect(page).toHaveURL(/scan/, { timeout: 10_000 })
-  await page.context().storageState({ path: '.auth/pos.json' })
-  console.log('✅ Cajero POS autenticado')
+  await loginAndSaveLS(
+    page,
+    `${POS_URL}/login`,
+    process.env.TEST_CASHIER_EMAIL!,
+    process.env.TEST_CASHIER_PASSWORD!,
+    /scan/,
+    path.join(AUTH_DIR, 'pos-ls.json'),
+    'Cajero POS',
+  )
 })
 
-// ─── 4. Limpiar datos de prueba anteriores ───────────────────────────────────
+// ─── Limpieza de datos anteriores ────────────────────────────────────────────
+
 setup('limpiar datos E2E anteriores', async () => {
   const tenantId = await getTenantId(SLUG)
   await cleanTestData(tenantId)

@@ -20,9 +20,11 @@ export const adminClient = createClient(url, key, {
 
 // ─── Helpers de limpieza ────────────────────────────────────────────────────
 
-/** Elimina todas las transacciones y redemptions de prueba del tenant */
+/** Elimina todos los datos de prueba E2E del tenant */
 export async function cleanTestData(tenantId: string) {
   // Orden importa por foreign keys
+
+  // Redemptions y transacciones
   await adminClient.from('redemptions')
     .delete()
     .eq('tenant_id', tenantId)
@@ -33,10 +35,35 @@ export async function cleanTestData(tenantId: string) {
     .eq('tenant_id', tenantId)
     .like('notes', 'E2E_%')
 
+  // Promociones
   await adminClient.from('promotions')
     .delete()
     .eq('tenant_id', tenantId)
     .like('name', 'E2E_%')
+
+  // Campañas push
+  await adminClient.from('campaigns')
+    .delete()
+    .eq('tenant_id', tenantId)
+    .like('title', 'E2E_%')
+
+  // Perfiles de cajeros POS creados en tests (role='employee')
+  // Solo eliminamos los que tienen email con prefijo e2e_
+  const { data: staffUsers } = await adminClient.auth.admin.listUsers()
+  const e2eEmails = (staffUsers?.users || [])
+    .filter(u => u.email?.startsWith('e2e_cajero'))
+    .map(u => u.id)
+
+  if (e2eEmails.length > 0) {
+    await adminClient.from('profiles')
+      .delete()
+      .eq('tenant_id', tenantId)
+      .in('id', e2eEmails)
+
+    for (const uid of e2eEmails) {
+      await adminClient.auth.admin.deleteUser(uid)
+    }
+  }
 }
 
 /** Obtiene el tenant_id a partir del slug */

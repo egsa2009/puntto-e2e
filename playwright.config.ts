@@ -45,6 +45,7 @@ export default defineConfig({
     // ── Setup global: crea tenant + usuarios de prueba ──────────────
     {
       name: 'setup',
+      testDir: '.',                     // global.setup.ts está en la raíz, no en ./tests
       testMatch: /global\.setup\.ts/,
     },
 
@@ -56,7 +57,7 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         baseURL: ADMIN_URL,
-        storageState: '.auth/admin.json',
+        // Sin storageState: la auth se inyecta via addInitScript en cada spec
       },
     },
 
@@ -68,7 +69,6 @@ export default defineConfig({
       use: {
         ...devices['Pixel 7'],
         baseURL: CLIENT_URL,
-        storageState: '.auth/client.json',
       },
     },
 
@@ -80,13 +80,13 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         baseURL: POS_URL,
-        storageState: '.auth/pos.json',
       },
     },
 
     // ── Teardown global: limpia datos de prueba ──────────────────────
     {
       name: 'teardown',
+      testDir: '.',                     // global.teardown.ts está en la raíz, no en ./tests
       testMatch: /global\.teardown\.ts/,
       dependencies: ['admin', 'client', 'pos'],
     },
