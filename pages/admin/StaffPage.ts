@@ -24,7 +24,7 @@ export class AdminStaffPage {
 
   /** Crea un nuevo cajero POS y retorna sus credenciales desde el modal de éxito */
   async createCashier(data: CashierData): Promise<{ name: string; email: string } | null> {
-    const createBtn = this.page.getByRole('button', { name: /nuevo cajero|crear cajero/i })
+    const createBtn = this.page.getByRole('button', { name: /agregar cajero|nuevo cajero|crear cajero/i })
     await createBtn.click()
 
     // Esperar modal

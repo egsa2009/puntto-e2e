@@ -18,27 +18,32 @@ export class AdminPromotionsPage {
   async createPromotion(data: PromotionData) {
     await this.page.getByRole('button', { name: /nueva promoci|agregar/i }).click()
 
-    const dialog = this.page.getByRole('dialog').or(
-      this.page.locator('form').filter({ hasText: /nombre/i })
-    )
+    // El modal es un div.fixed.inset-0 (no role="dialog"), esperar que aparezca
+    const modal = this.page.locator('[class*="fixed"][class*="inset-0"]').filter({
+      has: this.page.locator('form'),
+    }).first()
+    await expect(modal).toBeVisible({ timeout: 3_000 })
 
-    await dialog.getByPlaceholder(/nombre/i).fill(data.name)
+    // Placeholder real del campo nombre: "Ej: Cafe gratis"
+    await modal.getByPlaceholder(/ej:/i).fill(data.name)
 
     if (data.description) {
-      await dialog.getByPlaceholder(/descripci/i).fill(data.description)
+      await modal.getByPlaceholder(/describe/i).fill(data.description)
     }
 
-    await dialog.getByLabel(/puntos requeridos|puntos necesarios/i).fill(
-      String(data.pointsRequired)
-    )
+    // Puntos requeridos — primer input type="number" del modal
+    const pointsInput = modal.locator('input[type="number"]').first()
+    await pointsInput.fill(String(data.pointsRequired))
 
     if (data.stock !== undefined) {
-      await dialog.getByLabel(/stock/i).fill(String(data.stock))
+      // Stock — segundo input type="number"
+      const stockInput = modal.locator('input[type="number"]').nth(1)
+      await stockInput.fill(String(data.stock))
     }
 
-    await dialog.getByRole('button', { name: /guardar|crear/i }).click()
+    await modal.getByRole('button', { name: /guardar|crear/i }).click()
 
-    // Verificar que aparece en la tabla
+    // Verificar que aparece en la lista
     await expect(
       this.page.getByText(data.name)
     ).toBeVisible({ timeout: 5_000 })

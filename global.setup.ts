@@ -114,3 +114,42 @@ setup('limpiar datos E2E anteriores', async () => {
   await cleanTestData(tenantId)
   console.log('✅ Datos E2E anteriores eliminados')
 })
+
+// ─── Garantizar perfil cajero POS con tenant_id ───────────────────────────────
+
+setup('verificar perfil cajero POS', async () => {
+  const tenantId  = await getTenantId(SLUG)
+  const cashierEmail = process.env.TEST_CASHIER_EMAIL
+
+  if (!cashierEmail) {
+    console.warn('⚠️  TEST_CASHIER_EMAIL no configurado — se omite la verificación del perfil POS')
+    return
+  }
+
+  // Buscar el auth user por email
+  const { data: usersData } = await adminClient.auth.admin.listUsers({ perPage: 1000 })
+  const cashierUser = usersData?.users?.find(u => u.email === cashierEmail)
+
+  if (!cashierUser) {
+    console.warn(`⚠️  Usuario cajero ${cashierEmail} no encontrado en Supabase Auth`)
+    return
+  }
+
+  // Verificar si el perfil ya tiene tenant_id
+  const { data: profile } = await adminClient
+    .from('profiles')
+    .select('tenant_id, role')
+    .eq('id', cashierUser.id)
+    .maybeSingle()
+
+  if (!profile?.tenant_id) {
+    await adminClient.from('profiles').upsert({
+      id:        cashierUser.id,
+      tenant_id: tenantId,
+      role:      profile?.role || 'employee',
+    })
+    console.log(`✅ Cajero POS: tenant_id actualizado → ${tenantId}`)
+  } else {
+    console.log('✅ Cajero POS: tenant_id ya configurado')
+  }
+})

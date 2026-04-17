@@ -11,7 +11,8 @@ export class AdminCampaignsPage {
 
   async goto() {
     await this.page.goto('/campaigns')
-    await expect(this.page.getByRole('heading', { name: /campa/i })).toBeVisible()
+    // Use exact match to avoid strict-mode violation with h3 "Historial de campanas"
+    await expect(this.page.getByRole('heading', { name: 'Campanas', exact: true })).toBeVisible()
   }
 
   /** Devuelve el texto del banner de límite mensual, o null si no existe */
