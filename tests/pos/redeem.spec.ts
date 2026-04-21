@@ -49,11 +49,9 @@ test.describe('POS — Canje de Promociones', () => {
   })
 
   // Después de estos tests: limpiar la promoción E2E
+  // Los canjes se guardan en point_transactions (type='redemption', benefit_id=promoId),
+  // no en una tabla 'redemptions' separada.
   test.afterAll(async () => {
-    await adminClient.from('redemptions')
-      .delete()
-      .eq('promotion_id', promoId)
-
     await adminClient.from('point_transactions')
       .delete()
       .eq('benefit_id', promoId)

@@ -71,7 +71,7 @@ test.describe('Admin — Promociones', () => {
     const exists = await page.getByText(PROMO_NAME).isVisible({ timeout: 2_000 }).catch(() => false)
     if (!exists) { test.skip(true, 'Promoción E2E no encontrada'); return }
 
-    const card = page.locator('tr, [class*="card"]').filter({ hasText: PROMO_NAME })
+    const card = page.locator('div[class*="rounded-2xl"]').filter({ hasText: PROMO_NAME })
     await expect(card.getByText('50')).toBeVisible()
     await expect(card.getByText(/10/)).toBeVisible()
   })
@@ -85,9 +85,9 @@ test.describe('Admin — Promociones', () => {
 
     await promoPage.togglePromotion(PROMO_NAME)
 
-    const card = page.locator('tr, [class*="card"]').filter({ hasText: PROMO_NAME })
-    await expect(card.locator('[class*="inactive"], [class*="gray"]')).toBeVisible()
-      .catch(() => expect(card.getByText(/inactiv/i)).toBeVisible())
+    const card = page.locator('div[class*="rounded-2xl"]').filter({ hasText: PROMO_NAME })
+    // Tras desactivar aparece el badge "Inactivo" dentro de la tarjeta
+    await expect(card.getByText(/inactiv/i)).toBeVisible({ timeout: 3_000 })
   })
 
 })

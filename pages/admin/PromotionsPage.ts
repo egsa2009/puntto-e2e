@@ -50,24 +50,34 @@ export class AdminPromotionsPage {
   }
 
   async deletePromotion(name: string) {
-    const row = this.page.locator('tr, [data-testid="promo-card"]').filter({ hasText: name })
-    await row.getByRole('button', { name: /eliminar|borrar/i }).click()
-
-    // Confirmar si hay dialogo
-    const confirmBtn = this.page.getByRole('button', { name: /confirmar|si|eliminar/i })
-    if (await confirmBtn.isVisible({ timeout: 1_000 }).catch(() => false)) {
-      await confirmBtn.click()
+    // NOTE: La UI actual no tiene botón de eliminar — las promociones se borran
+    // directamente en Supabase desde el teardown. Este método existe por si se
+    // añade la funcionalidad en el futuro.
+    const card = this.page.locator('div[class*="rounded-2xl"]').filter({ hasText: name })
+    const deleteBtn = card.getByRole('button', { name: /eliminar|borrar/i })
+    if (await deleteBtn.isVisible({ timeout: 500 }).catch(() => false)) {
+      await deleteBtn.click()
+      const confirmBtn = this.page.getByRole('button', { name: /confirmar|si|eliminar/i })
+      if (await confirmBtn.isVisible({ timeout: 1_000 }).catch(() => false)) {
+        await confirmBtn.click()
+      }
+      await expect(this.page.getByText(name)).not.toBeVisible({ timeout: 5_000 })
     }
-
-    await expect(this.page.getByText(name)).not.toBeVisible({ timeout: 5_000 })
   }
 
   async togglePromotion(name: string) {
-    const row = this.page.locator('tr, [data-testid="promo-card"]').filter({ hasText: name })
-    await row.getByRole('button', { name: /activar|desactivar|toggle/i }).click()
+    // Las tarjetas de promoción tienen dos botones: [0] editar, [1] activar/desactivar.
+    // El botón de toggle solo tiene icono (ToggleLeft / ToggleRight), sin texto.
+    const card = this.page.locator('div[class*="rounded-2xl"]').filter({ hasText: name })
+    await card.locator('button').nth(1).click()
   }
 
   async getPromotionCount(): Promise<number> {
-    return await this.page.locator('tr[data-testid], .promo-card, tbody tr').count()
+    // Cada tarjeta de promoción contiene botones (editar + toggle).
+    // La tarjeta vacía ("No hay promociones") no tiene botones → se excluye sola.
+    return await this.page
+      .locator('div[class*="rounded-2xl"]')
+      .filter({ has: this.page.locator('button') })
+      .count()
   }
 }

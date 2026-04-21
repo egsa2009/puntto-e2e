@@ -10,7 +10,7 @@
 import { test as setup } from '@playwright/test'
 import * as fs   from 'fs'
 import * as path from 'path'
-import { cleanTestData, getTenantId } from './fixtures/supabase'
+import { adminClient, cleanTestData, getTenantId } from './fixtures/supabase'
 
 const ADMIN_URL  = process.env.ADMIN_URL  || 'http://localhost:5174'
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173'

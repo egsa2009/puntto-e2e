@@ -24,18 +24,26 @@ export const adminClient = createClient(url, key, {
 export async function cleanTestData(tenantId: string) {
   // Orden importa por foreign keys
 
-  // Redemptions y transacciones
-  await adminClient.from('redemptions')
-    .delete()
+  // 1. Obtener IDs de promociones E2E para limpiar transacciones asociadas antes
+  const { data: e2ePromos } = await adminClient
+    .from('promotions')
+    .select('id')
     .eq('tenant_id', tenantId)
-    .like('value_description', 'E2E_%')
+    .like('name', 'E2E_%')
 
-  await adminClient.from('point_transactions')
-    .delete()
-    .eq('tenant_id', tenantId)
-    .like('notes', 'E2E_%')
+  const promoIds = (e2ePromos || []).map((p: { id: string }) => p.id)
 
-  // Promociones
+  // 2. Eliminar transacciones de canje ligadas a esas promociones
+  //    (point_transactions con type='redemption' y benefit_id apuntando a la promo)
+  if (promoIds.length > 0) {
+    await adminClient
+      .from('point_transactions')
+      .delete()
+      .eq('tenant_id', tenantId)
+      .in('benefit_id', promoIds)
+  }
+
+  // 3. Eliminar las promociones E2E
   await adminClient.from('promotions')
     .delete()
     .eq('tenant_id', tenantId)

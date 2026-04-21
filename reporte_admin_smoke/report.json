@@ -1,0 +1,386 @@
+{
+  "meta": {
+    "url": "https://puntto-admin.vercel.app",
+    "playwright_version": "1.x"
+  },
+  "results": [
+    {
+      "action": "goto",
+      "description": "Ir a la página de login",
+      "selector": "",
+      "value": "https://puntto-admin.vercel.app/login",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 3.95
+    },
+    {
+      "action": "assert_visible",
+      "description": "Verificar que el formulario de login cargó",
+      "selector": "input[type='email']",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.23
+    },
+    {
+      "action": "fill",
+      "description": "Ingresar email del admin",
+      "selector": "input[type='email']",
+      "value": "admin2@loyalflow.com",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.27
+    },
+    {
+      "action": "fill",
+      "description": "Ingresar contraseña",
+      "selector": "input[type='password']",
+      "value": "MomoDiver2026*",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.18
+    },
+    {
+      "action": "click",
+      "description": "Clic en Ingresar al panel",
+      "selector": "button[type='submit']",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.27
+    },
+    {
+      "action": "wait_for",
+      "description": "Esperar a que cargue el sidebar del dashboard (confirma login exitoso)",
+      "selector": "nav a[href='/dashboard'], nav a[href*='dashboard']",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 2.53
+    },
+    {
+      "action": "assert_url",
+      "description": "Verificar redirección al dashboard",
+      "selector": "",
+      "value": "/dashboard",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.07
+    },
+    {
+      "action": "assert_visible",
+      "description": "Verificar que el dashboard cargó con encabezado",
+      "selector": "h1",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.07
+    },
+    {
+      "action": "screenshot",
+      "description": "Captura del dashboard",
+      "selector": "",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.07
+    },
+    {
+      "action": "click",
+      "description": "Navegar a Usuarios",
+      "selector": "text=Usuarios",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.16
+    },
+    {
+      "action": "assert_url",
+      "description": "Verificar URL de Usuarios",
+      "selector": "",
+      "value": "/users",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.08
+    },
+    {
+      "action": "assert_visible",
+      "description": "Verificar que la sección Usuarios cargó",
+      "selector": "h1",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.08
+    },
+    {
+      "action": "screenshot",
+      "description": "Captura de Usuarios",
+      "selector": "",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.07
+    },
+    {
+      "action": "click",
+      "description": "Navegar a Cajeros POS",
+      "selector": "text=Cajeros POS",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.39
+    },
+    {
+      "action": "assert_url",
+      "description": "Verificar URL de Cajeros POS",
+      "selector": "",
+      "value": "/staff",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.08
+    },
+    {
+      "action": "assert_visible",
+      "description": "Verificar que la sección Cajeros POS cargó",
+      "selector": "h1",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.07
+    },
+    {
+      "action": "assert_visible",
+      "description": "Verificar que el botón Agregar cajero está visible",
+      "selector": "text=Agregar cajero",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.08
+    },
+    {
+      "action": "screenshot",
+      "description": "Captura de Cajeros POS",
+      "selector": "",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.07
+    },
+    {
+      "action": "click",
+      "description": "Navegar a Tiendas",
+      "selector": "text=Tiendas",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.12
+    },
+    {
+      "action": "assert_url",
+      "description": "Verificar URL de Tiendas",
+      "selector": "",
+      "value": "/franchises",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.08
+    },
+    {
+      "action": "assert_visible",
+      "description": "Verificar que la sección Tiendas cargó",
+      "selector": "h1",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.08
+    },
+    {
+      "action": "screenshot",
+      "description": "Captura de Tiendas",
+      "selector": "",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.07
+    },
+    {
+      "action": "click",
+      "description": "Navegar a Promociones",
+      "selector": "text=Promociones",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.13
+    },
+    {
+      "action": "assert_url",
+      "description": "Verificar URL de Promociones",
+      "selector": "",
+      "value": "/promotions",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.07
+    },
+    {
+      "action": "assert_visible",
+      "description": "Verificar que la sección Promociones cargó",
+      "selector": "h1",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.07
+    },
+    {
+      "action": "screenshot",
+      "description": "Captura de Promociones",
+      "selector": "",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.08
+    },
+    {
+      "action": "click",
+      "description": "Navegar a Campañas (via href para evitar ambigüedad con el texto)",
+      "selector": "nav a[href='/campaigns'], nav a[href*='campaign']",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.25
+    },
+    {
+      "action": "assert_url",
+      "description": "Verificar URL de Campañas",
+      "selector": "",
+      "value": "/campaigns",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.1
+    },
+    {
+      "action": "assert_visible",
+      "description": "Verificar que la sección Campañas cargó",
+      "selector": "h1",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.08
+    },
+    {
+      "action": "screenshot",
+      "description": "Captura de Campañas",
+      "selector": "",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.07
+    },
+    {
+      "action": "click",
+      "description": "Navegar a Reportes",
+      "selector": "text=Reportes",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.11
+    },
+    {
+      "action": "assert_url",
+      "description": "Verificar URL de Reportes",
+      "selector": "",
+      "value": "/reports",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.07
+    },
+    {
+      "action": "assert_visible",
+      "description": "Verificar que la sección Reportes cargó",
+      "selector": "h1",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.08
+    },
+    {
+      "action": "screenshot",
+      "description": "Captura de Reportes",
+      "selector": "",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.07
+    },
+    {
+      "action": "click",
+      "description": "Navegar a Configuración",
+      "selector": "text=Configuracion",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.12
+    },
+    {
+      "action": "assert_url",
+      "description": "Verificar URL de Configuración",
+      "selector": "",
+      "value": "/settings",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.07
+    },
+    {
+      "action": "assert_visible",
+      "description": "Verificar que la sección Configuración cargó",
+      "selector": "h1",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.06
+    },
+    {
+      "action": "screenshot",
+      "description": "Captura de Configuración",
+      "selector": "",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.06
+    },
+    {
+      "action": "click",
+      "description": "Cerrar sesión",
+      "selector": "text=Cerrar sesion",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.12
+    },
+    {
+      "action": "wait_for",
+      "description": "Esperar que aparezca el formulario de login tras cerrar sesión",
+      "selector": "input[type='email']",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.49
+    },
+    {
+      "action": "assert_url",
+      "description": "Verificar que regresó al login tras cerrar sesión",
+      "selector": "",
+      "value": "/login",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.15
+    },
+    {
+      "action": "screenshot",
+      "description": "Captura final — login tras cerrar sesión",
+      "selector": "",
+      "value": "",
+      "status": "pass",
+      "error": null,
+      "elapsed_s": 0.15
+    }
+  ]
+}

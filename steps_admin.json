@@ -1,0 +1,239 @@
+{
+  "url": "https://puntto-admin.vercel.app",
+  "steps": [
+    {
+      "action": "goto",
+      "value": "https://puntto-admin.vercel.app/login",
+      "description": "Navegar a https://puntto-admin.vercel.app/login"
+    },
+    {
+      "action": "click",
+      "selector": "[role=textbox][name=admin@negocio.com]",
+      "description": "Clic en '[role=textbox][name=admin@negocio.com]'"
+    },
+    {
+      "action": "fill",
+      "selector": "[role=textbox][name=admin@negocio.com]",
+      "value": "admin2@puntto.com",
+      "description": "Escribir en '[role=textbox][name=admin@negocio.com]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=textbox][name=••••••••]",
+      "description": "Clic en '[role=textbox][name=••••••••]'"
+    },
+    {
+      "action": "fill",
+      "selector": "[role=textbox][name=••••••••]",
+      "value": "MomoDiver2026*",
+      "description": "Escribir en '[role=textbox][name=••••••••]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=button][name=Ingresar al panel]",
+      "description": "Clic en '[role=button][name=Ingresar al panel]'"
+    },
+    {
+      "action": "click",
+      "selector": "text=EmailContraseñaIngresar al",
+      "description": "Clic en 'text=EmailContraseñaIngresar al'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=textbox][name=admin@negocio.com]",
+      "description": "Clic en '[role=textbox][name=admin@negocio.com]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=textbox][name=admin@negocio.com]",
+      "description": "Clic en '[role=textbox][name=admin@negocio.com]'"
+    },
+    {
+      "action": "fill",
+      "selector": "[role=textbox][name=admin@negocio.com]",
+      "value": "admin2@loyalflow.com",
+      "description": "Escribir en '[role=textbox][name=admin@negocio.com]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=button][name=Ingresar al panel]",
+      "description": "Clic en '[role=button][name=Ingresar al panel]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=link][name=Usuarios]",
+      "description": "Clic en '[role=link][name=Usuarios]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=link][name=Cajeros POS]",
+      "description": "Clic en '[role=link][name=Cajeros POS]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=button][name=Agregar cajero]",
+      "description": "Clic en '[role=button][name=Agregar cajero]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=button][name=Cancelar]",
+      "description": "Clic en '[role=button][name=Cancelar]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=link][name=Tiendas]",
+      "description": "Clic en '[role=link][name=Tiendas]'"
+    },
+    {
+      "action": "click",
+      "selector": "desconocido",
+      "description": "Clic en 'desconocido'"
+    },
+    {
+      "action": "click",
+      "selector": "desconocido",
+      "description": "Clic en 'desconocido'"
+    },
+    {
+      "action": "click",
+      "selector": "desconocido",
+      "description": "Clic en 'desconocido'"
+    },
+    {
+      "action": "click",
+      "selector": "desconocido",
+      "description": "Clic en 'desconocido'"
+    },
+    {
+      "action": "click",
+      "selector": "desconocido",
+      "description": "Clic en 'desconocido'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=link][name=Promociones]",
+      "description": "Clic en '[role=link][name=Promociones]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=link][name=Campanas]",
+      "description": "Clic en '[role=link][name=Campanas]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=button][name=Recordatorio]",
+      "description": "Clic en '[role=button][name=Recordatorio]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=button][name=Cumpleanos]",
+      "description": "Clic en '[role=button][name=Cumpleanos]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=button][name=🌱 Nivel Explorador]",
+      "description": "Clic en '[role=button][name=🌱 Nivel Explorador]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=button][name=⭐ Nivel Frecuente]",
+      "description": "Clic en '[role=button][name=⭐ Nivel Frecuente]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=button][name=🔥 Nivel ·vanzado]",
+      "description": "Clic en '[role=button][name=🔥 Nivel ·vanzado]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=button][name=Desactivado]",
+      "description": "Clic en '[role=button][name=Desactivado]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=button][name=Activado]",
+      "description": "Clic en '[role=button][name=Activado]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=button][name=Historial de campanas (4)]",
+      "description": "Clic en '[role=button][name=Historial de campanas (4)]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=link][name=Reportes]",
+      "description": "Clic en '[role=link][name=Reportes]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=button][name=Canjes]",
+      "description": "Clic en '[role=button][name=Canjes]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=button][name=Campanas usadas]",
+      "description": "Clic en '[role=button][name=Campanas usadas]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=button][name=Bienvenida]",
+      "description": "Clic en '[role=button][name=Bienvenida]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=link][name=Configuracion]",
+      "description": "Clic en '[role=link][name=Configuracion]'"
+    },
+    {
+      "action": "click",
+      "selector": "desconocido",
+      "description": "Clic en 'desconocido'"
+    },
+    {
+      "action": "click",
+      "selector": "desconocido",
+      "description": "Clic en 'desconocido'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=button][name=Guardar regalo de bienvenida]",
+      "description": "Clic en '[role=button][name=Guardar regalo de bienvenida]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=button][name=x2]",
+      "description": "Clic en '[role=button][name=x2]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=textbox][name=Ej: Martes de doble puntos,]",
+      "description": "Clic en '[role=textbox][name=Ej: Martes de doble puntos,]'"
+    },
+    {
+      "action": "fill",
+      "selector": "[role=textbox][name=Ej: Martes de doble puntos,]",
+      "value": "Prueba 2x1",
+      "description": "Escribir en '[role=textbox][name=Ej: Martes de doble puntos,]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=button][name=Activar puntos especiales]",
+      "description": "Clic en '[role=button][name=Activar puntos especiales]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=button][name=Desactivar]",
+      "description": "Clic en '[role=button][name=Desactivar]'"
+    },
+    {
+      "action": "click",
+      "selector": "[role=button][name=Cerrar sesion]",
+      "description": "Clic en '[role=button][name=Cerrar sesion]'"
+    },
+    {
+      "action": "screenshot",
+      "description": "Captura final"
+    }
+  ],
+  "raw_codegen": "C:\\Users\\Asus\\AppData\\Local\\Temp\\tmp7la4zlcf.py"
+}

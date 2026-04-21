@@ -1,0 +1,11 @@
+{
+  "url": "https://example.com",
+  "steps": [
+    {"action": "goto", "value": "https://example.com", "description": "Navegar a example.com"},
+    {"action": "assert_visible", "selector": "h1", "description": "Verificar que existe un título h1"},
+    {"action": "assert_text", "selector": "h1", "value": "Example Domain", "description": "Verificar texto del título"},
+    {"action": "screenshot", "description": "Captura final de la página"},
+    {"action": "assert_visible", "selector": "a", "description": "Verificar que existe un enlace"},
+    {"action": "assert_url", "value": "example.com", "description": "Verificar URL actual"}
+  ]
+}
